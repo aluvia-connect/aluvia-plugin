@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "aluvia",
+  "version": "1.0.0",
+  "description": "Give a cloud-agent Chrome a residential or mobile IP in a chosen country. Country-level geo, not a human VPN and not an MCP.",
+  "author": {
+    "name": "Aluvia LLC",
+    "url": "https://aluvia.io"
+  },
+  "homepage": "https://aluvia.io",
+  "repository": "https://github.com/aluvia-connect/aluvia-plugin",
+  "license": "MIT",
+  "keywords": [
+    "geo",
+    "residential",
+    "grok-bot",
+    "playwright",
+    "cloudflare",
+    "captcha",
+    "datacenter"
+  ]
+}
