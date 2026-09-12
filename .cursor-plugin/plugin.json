@@ -13,10 +13,12 @@
   "logo": "assets/logo.svg",
   "keywords": [
     "aluvia",
-    "country-selection",
+    "proxies",
+    "proxy",
+    "proxy-ip",
+    "datacenter-ip",
     "residential-proxy",
-    "cloud-agents",
-    "grok-bot"
+    "residential-proxies"
   ],
   "category": "developer-tools",
   "tags": [

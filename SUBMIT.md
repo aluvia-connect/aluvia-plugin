@@ -17,7 +17,7 @@ Prepared September 12, 2026. Chris executes this checklist. Repository preparati
 | License | MIT, Copyright (c) 2026 Aluvia LLC |
 | Plugin price | Free |
 | Category, if offered | Developer Tools (`developer-tools`) |
-| Keywords | aluvia, country-selection, residential-proxy, cloud-agents, grok-bot |
+| Keywords | aluvia, proxies, proxy, proxy-ip, datacenter-ip, residential-proxy, residential-proxies |
 | PNG logo | [assets/logo.png on main](https://raw.githubusercontent.com/aluvia-connect/aluvia-plugin/main/assets/logo.png) |
 | SVG logo | [assets/logo.svg on main](https://raw.githubusercontent.com/aluvia-connect/aluvia-plugin/main/assets/logo.svg) |
 | Privacy | [Privacy Policy](https://aluvia.io/privacy-policy) |
