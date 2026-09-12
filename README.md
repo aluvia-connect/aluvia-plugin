@@ -4,7 +4,7 @@
 
 # Aluvia
 
-Give your cloud agent's browser a residential IP in the country you need.
+Aluvia lets Grok Bot access websites through residential proxy IPs instead of its datacenter IP. Choose a country and help your browser workflows get past CAPTCHAs, bot blocks, and geo restrictions when the IP address is the cause.
 
 **Publisher: Aluvia LLC** · [support@aluvia.io](mailto:support@aluvia.io) · [aluvia.io](https://aluvia.io)
 
