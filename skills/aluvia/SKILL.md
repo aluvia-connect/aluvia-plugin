@@ -1,79 +1,72 @@
 ---
 name: aluvia
-description: 'Use Aluvia when a cloud agent is in the wrong country for a site; when a page says not available in your region, this content is not available in your country, we don’t ship to your location, or other geo-restriction; when you need the browser to use an IP in a specific country (`aluvia proxy-on --geo US`; run `aluvia geos` for the list); when you suspect the datacenter IP is why a page is blocked (CAPTCHA, Cloudflare, Access Denied, unusual traffic, or a hard 403); or for first install of Aluvia on this machine. Run aluvia and follow next.'
+description: Use Aluvia to set up a cloud agent's browser proxy, choose an IP country for a regional page, or try a residential IP when a datacenter IP may be causing a 403, CAPTCHA, Cloudflare challenge, or Access Denied page. Requires command access to the Chrome or Chromium host. Does not replace a required login.
 ---
 
 # Aluvia
 
-A cloud agent's browser uses the datacenter's country. Sites treat that country as the agent's location, then show that country's prices, catalog, and language, or say the content is not available there. Set a country. Aluvia sends **this** Chrome through a residential or mobile IP there. The site sees that country's IP and returns the matching page. A residential IP in the right country sometimes also clears a 403, CAPTCHA, or Cloudflare block. Aluvia does not set GPS, timezone, or Accept-Language, and does not change fingerprint, TLS, or canvas.
+Aluvia routes the agent's existing Chrome or Chromium browser through a residential IP. Choose a country when a page shows the wrong catalog or prices, or says it is not available in your region. A residential IP in the right country sometimes also clears an IP-related 403, CAPTCHA, or Cloudflare block.
 
-Local proxy: `http://127.0.0.1:18787`. All JSON on stdout. Follow `next`. Never print API keys. One Chrome restart is expected. Do not launch a second Chrome.
+Select a country, not a city. Aluvia does not set GPS, timezone, or browser language, and does not change fingerprint, TLS, or canvas behavior. It is not a human VPN, a streaming tool, or a login bypass.
 
-If `aluvia` is not on PATH, prefix with `npx aluvia-cli`.
+Publisher: Aluvia LLC. Contact: support@aluvia.io. Website: [aluvia.io](https://aluvia.io). Documentation: [aluvia.io/docs](https://aluvia.io/docs).
 
-## When the country is wrong
+## First install
 
-Wrong prices, catalog, or language; or the page says not available in your region, this content is not available in your country, we don’t ship to your location, or other geo-restriction. Country only — not city. Not a human VPN. Not streaming or live video.
+Run on the machine where the agent's browser runs. It needs Node.js 18 or later, usable Chrome or Chromium, and permission to install software and configure that browser. If the host does not allow this, explain the limit and stop.
 
-1. Copy the address-bar URL.
-2. First time, or `aimed` is false → **First install** (`aluvia setup`). Pass `--url <page>` only if you have the address-bar URL.
-3. `aluvia geos` for the country list.
-4. `aluvia proxy-on --geo US` (or another country from that list), then reload.
-
-`{"code":"payment_required"}` always includes `claim_url` and `next` → show the human `claim_url`. Then `aluvia auth login` to wait. **Paid** below.
-
-## When a workflow is blocked
-
-Cloudflare, CAPTCHA, Access Denied, unusual traffic, or a hard 403 on a page that should load. Not a normal login wall. A residential IP in the right country sometimes clears the block. Fingerprint, TLS, and canvas stay the same.
-
-1. Copy the address-bar URL.
-2. `aluvia status` if you already ran setup on this machine. Follow `next`. `what` explains every field.
-3. `{"code":"payment_required"}` always includes `claim_url` and `next` → show the human `claim_url`. Then `aluvia auth login` to wait. **Paid** below.
-4. First time, or `aimed` is false → **First install** (`aluvia setup --url <https-page>`). Pass the address-bar URL. `--url` is required unless Chrome is already aimed.
-
-## First install (once per machine)
+Save unfinished browser work before setup. Setup can restart Chrome. Do not launch a second browser to work around setup.
 
 ```bash
-npx aluvia-cli setup --url <https-page>
+npx aluvia-cli setup
 ```
 
-`--url <page>` is required when Chrome is not already aimed, so the restart opens a real HTTPS page that CONNECTs. Do not omit it. Do not invent a URL.
+No account, API key, payment, or target page URL is required to start. `--url <page>` is optional. Without it, this CLI version opens `https://example.com/` as a small connection test page after a restart. Use the actual target page URL if you provide one.
 
-Read the JSON. **`next` is the next action.**
+Setup installs the command launcher and bundled agent skill, starts the local proxy, configures the browser, enables proxy traffic, and checks the connection. The default local proxy is `http://127.0.0.1:18787`.
 
-One restart is expected. `setup` tries to quit this Chrome and relaunch it with proxy flags. If you launch Chrome without quitting first, the flags are ignored.
+Read the command's JSON response and follow `next`:
 
-- `ready: true` → a real CONNECT landed. Reload the blocked tab. Idle tabs stay aimed. Re-running setup while aimed is a no-op.
-- `needsChromeRestart: true` → run `chromeCommand` **exactly** (it quits first, then launches). Then run `aluvia setup` again.
+- `ready: true` means the browser reached the local proxy and the upstream connection check passed. It does not prove the target page is accessible or the task succeeded.
+- If `needsChromeRestart: true`, use the `chromeCommand` returned by the CLI. It quits the browser before relaunching it with proxy flags. Then run `npx aluvia-cli setup` again.
+- If setup cannot finish, follow the reported recovery action. Do not invent browser flags or repeatedly restart without a new reason.
 
-If still not aimed after that, run `aluvia setup` again. Follow `next`.
+If `aluvia` is not on PATH, replace it with `npx aluvia-cli`. For example, `npx aluvia-cli status`.
 
-Idle is fine. If the page is still blocked after Chrome is aimed, reload the tab, then `aluvia status`. If that status says `aimed` is false, run setup again.
+## Choose a country or check a blocked page
 
-## Day to day
+1. Keep the target page open if you have one. On an existing install, run `aluvia status` and read `next`. The `what` field explains status fields. If setup is incomplete or `aimed` is false, follow the setup recovery instructions.
+2. Run `aluvia geos`. Use the country requested by the user, chosen from that result. Do not invent available countries.
+3. Run `aluvia proxy-on --geo US`, replacing `US` with that country. If no country is needed, use `aluvia proxy-on`.
+4. Reload the target page. Inspect the actual prices, catalog, or other content needed for the task before reporting success.
+5. If it still fails, run `aluvia status`. With a working connection and a suspected IP block, try `aluvia rotate-ip --geo US` once in the required country, then reload. If the page still fails, stop and explain the remaining block.
 
-| Goal                                    | Command                                                                  |
-| --------------------------------------- | ------------------------------------------------------------------------ |
-| Pick a country                          | `aluvia geos`, then `aluvia proxy-on --geo US`, then reload              |
-| Use Aluvia (every geo)                  | `aluvia proxy-on` then reload. Omit `--geo` to use every geo             |
-| Back to the VM datacenter IP            | `aluvia proxy-off` then reload. Do not quit Chrome.                      |
-| New exit IP                             | `aluvia rotate-ip` then reload. `--geo US` to pin a country              |
-| Check                                   | `aluvia status` — follow `next`                                          |
-| Stop the daemon                         | `aluvia stop` — Chrome aimed at 18787 will break. Prefer `proxy-off`.    |
+For a 429 or Cloudflare 1015 rate limit, respect the retry period and reduce requests. Do not keep rotating IPs. Required logins and human checks need their own next step.
 
-`proxy-on` / `proxy-off` do not restart Chrome.
+## Daily use
 
-## Paid / own proxy
+| Task | Command |
+| --- | --- |
+| List countries | `aluvia geos` |
+| Select a country | `aluvia proxy-on --geo US` |
+| Enable without choosing a country | `aluvia proxy-on` |
+| Get a new IP without choosing a country | `aluvia rotate-ip` |
+| Get a new IP in a chosen country | `aluvia rotate-ip --geo US` |
+| Check the connection | `aluvia status` |
+| Return to the original connection | `aluvia proxy-off` |
 
-The human cannot edit this VM. Ask them in chat. Then **you** run the command. Never set env vars. Never print the key.
+Reload after a connection change. Proxy changes affect all tabs in the configured browser. `proxy-on`, `proxy-off`, and `rotate-ip` keep the browser open. Use `proxy-off` when the task no longer needs the proxy. Do not use `aluvia stop` to switch off proxy traffic: Chrome can still point to the stopped local daemon.
 
-- They paste an Aluvia API key → `aluvia auth <that key>`
-- They paste their own proxy URL → `aluvia proxy-provider <url>`
-- They want Aluvia again after a BYO proxy → `aluvia proxy-provider aluvia`
-- Trial used up / `payment_required` → show them `claim_url`. They open it on their machine, enter email, type the 6-digit code from the email, Authorize, then Buy data if asked. You run `aluvia auth login` to wait — do not show a second URL.
+## Trial and paid continuation
 
-Then `aluvia proxy-on` and reload the tab.
+The plugin is free. The first 10 MB of Aluvia proxy data is free, with no account, API key, or payment to start. Further proxy/network data is $2/GB. This is a data charge, not a plugin fee.
 
-## Do not
+If a command returns `payment_required`, show the actual `claim_url` from that response to the user. They open it on their own machine, enter their email and verification code, authorize the account, and decide whether to buy data. Run `aluvia auth login` to wait, then check its result before retrying. Do not invent a claim link, show a second link when one is pending, or purchase data for the user.
 
-Guess hostnames, write PAC/nftables, load an unpacked extension, use `chrome://settings/system`, or `chrome://policy`. Do not `stop` to turn the proxy off.
+For an API key or proxy URL the user already supplied, use `aluvia auth <key>` or `aluvia proxy-provider <url>`. Keep those values out of chat, logs, screenshots, and shell tracing. If the available command tool exposes secrets, use the account claim flow instead. Never print API keys, install identifiers, or proxy credentials. Do not set credential environment variables.
+
+To return from another provider to Aluvia, run `aluvia proxy-provider aluvia`, then `aluvia proxy-on` or select a country. Another provider's fees and country options apply to its network.
+
+## Keep the setup supported
+
+Use the CLI's response for recovery. Do not guess proxy hostnames, write PAC or nftables configuration, load an unpacked extension, or change `chrome://settings/system` or `chrome://policy`. This plugin uses the CLI directly and requires no MCP server or connector.
