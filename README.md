@@ -4,7 +4,7 @@
 
 # Aluvia
 
-Aluvia lets Grok Bot access websites through residential proxy IPs instead of its datacenter IP. Choose a country and help your browser workflows get past CAPTCHAs, bot blocks, and geo restrictions when the IP address is the cause.
+Aluvia lets Grok Bot seamlessly access websites through residential proxy IPs rather than its datacenter IP. Use Aluvia to enable reliable browser workflows that avoid CAPTCHAs, bot blocks, and geo blocks.
 
 **Publisher: Aluvia LLC** · [support@aluvia.io](mailto:support@aluvia.io) · [aluvia.io](https://aluvia.io)
 
