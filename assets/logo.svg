@@ -1,1 +1,4 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 1052"><defs><style>.cls-1{font-size:1000px;fill:#fff;font-family:Adam-Medium, Adam;font-weight:500;letter-spacing:0.12em;}</style></defs><text class="cls-1" transform="translate(0 840)">A</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 32 32" role="img" aria-label="Aluvia">
+  <rect width="32" height="32" fill="#000"/>
+  <path d="M6 26 L16 6 L26 26" fill="none" stroke="#fff" stroke-width="1.8"/>
+</svg>
