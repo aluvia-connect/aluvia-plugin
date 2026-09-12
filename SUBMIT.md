@@ -25,7 +25,7 @@ Prepared September 12, 2026. Chris executes this checklist. Repository preparati
 
 **Short description**
 
-Give your cloud agent's Chrome or Chromium browser a residential IP in a chosen country. A skill for regional pages and blocks caused by datacenter IPs.
+Aluvia lets Grok Bot access websites through residential proxy IPs instead of its datacenter IP. Choose a country and help your browser workflows get past CAPTCHAs, bot blocks, and geo restrictions when the IP address is the cause.
 
 **Long description**
 
